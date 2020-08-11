@@ -4,6 +4,7 @@ import api from '../services/api';
 
 interface Usuario {
   id: string;
+  email: string;
   avatar_url: string;
   nome: string;
 }
@@ -21,6 +22,7 @@ interface AuthContextDTO {
   usuario: Usuario;
   sigIn(credentials: SigInCredentials): Promise<void>;
   signOut(): void;
+  updateUser(usuario: Usuario): void;
 }
 
 const AuthContext = createContext<AuthContextDTO>({} as AuthContextDTO);
@@ -62,8 +64,22 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, []);
 
+  const updateUser = useCallback(
+    (usuario: Usuario) => {
+      localStorage.setItem('@GoBarber:usuario', JSON.stringify(usuario));
+
+      setData({
+        token: data.token,
+        usuario,
+      });
+    },
+    [data.token],
+  );
+
   return (
-    <AuthContext.Provider value={{ usuario: data.usuario, sigIn, signOut }}>
+    <AuthContext.Provider
+      value={{ usuario: data.usuario, updateUser, sigIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

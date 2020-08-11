@@ -3,6 +3,7 @@ import { FiPower, FiClock } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import { isToday, format, parseISO, isAfter } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
+import { Link } from 'react-router-dom';
 import 'react-day-picker/lib/style.css';
 
 import logo from '../../assets/images/logo.svg';
@@ -143,7 +144,9 @@ const Dashboard: React.FC = () => {
 
             <div>
               <span>Bem-vindo</span>
-              <strong>{usuario.nome}</strong>
+              <Link to="/profile">
+                <strong>{usuario.nome}</strong>
+              </Link>
             </div>
           </Profile>
 
